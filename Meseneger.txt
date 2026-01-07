@@ -1,0 +1,13 @@
+Теперь для каждого мессенджера вы можете использовать свою уникальную ссылку:
+
+Для WhatsApp: https://pro100uzbek.github.io/RepairWebApp/?source=whatsapp
+
+Для Telegram: https://pro100uzbek.github.io/RepairWebApp/?source=telegram&user=username
+
+Для рекламы в FB: https://pro100uzbek.github.io/RepairWebApp/?source=facebook
+
+Для Viber: https://pro100uzbek.github.io/RepairWebApp/?source=viber
+
+
+
+https://pro100uzbek.github.io/RepairWebApp/

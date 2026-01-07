@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repair Service Montenegro</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header-nav">
+            <div class="header-title" id="header-order-title">Заказать ремонт</div>
+            <div class="lang-switch">
+                <button id="lang-ru" onclick="changeLang('ru')">RU</button>
+                <button id="lang-cnr" onclick="changeLang('cnr')">ME</button>
+                <button id="lang-en" onclick="changeLang('en')">EN</button>
+            </div>
+        </div>
+
+        <div class="main-title-container">
+            <h1 id="title" class="hero-title">Запись на ремонт</h1>
+        </div>
+        
+        <form id="orderForm">
+            <input type="hidden" id="source" name="source" value="direct">
+            <input type="hidden" id="platform_user_id" name="platform_user_id" value="unknown">
+            <input type="hidden" id="user_id" name="user_id" value="unknown">
+
+            <input type="text" id="name" name="name" placeholder="Имя" required>
+            <input type="tel" id="phone" name="phone" placeholder="Телефон" required>
+
+            <select id="city" name="city" required></select>
+            <select id="type-category" name="category" onchange="updateSubMenu()" required></select>
+            <select id="type-subcategory" name="subcategory" required style="display: none;"></select>
+
+            <input type="text" id="brand" name="brand" placeholder="Выберите бренд" readonly onclick="openBrandModal()" required style="cursor: pointer;">
+
+            <textarea id="description" name="description" rows="3" placeholder="Описание проблемы"></textarea>
+
+            <div class="file-input-container">
+                <label for="photo" class="custom-file-upload">
+                    <span id="lbl-photo-btn">Выберите файл</span>
+                </label>
+                <input type="file" id="photo" name="photo" accept="image/*" onchange="updateFileNameDisplay()">
+                <div id="file-name-display">Файл не выбран</div>
+            </div>
+
+            <button type="submit" id="btn-submit">Вызвать мастера</button>
+        </form>
+
+
+        <div id="brandModal" class="modal">
+            <div class="modal-content">
+                <h3 id="brand-modal-title">Выберите бренд</h3>
+                <div class="brand-selector-grid" id="brandSelectorGrid"></div>
+                <hr>
+                <p id="brand-manual-text">Или введите вручную:</p>
+                <input type="text" id="customBrand" placeholder="Название бренда">
+                <div class="modal-buttons">
+                    <button type="button" class="btn-cancel" onclick="closeBrandModal()">Отмена</button>
+                    <button type="button" class="btn-confirm" onclick="applyCustomBrand()">Ок</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="confirmModal" class="modal">
+            <div class="modal-content">
+                <h3 id="modal-title">Проверьте данные</h3>
+                <div id="summary"></div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn-cancel" onclick="closeModal()">Изменить</button>
+                    <button type="button" class="btn-confirm" onclick="finalSend()">Всё верно</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="loader" class="modal" style="display: none;">
+            <div class="modal-content" style="text-align: center;">
+                <p>Отправка данных...</p>
+            </div>
+        </div>
+
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
