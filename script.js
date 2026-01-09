@@ -36,6 +36,22 @@ const translations = {
             { value: "Fridge", text: "Холодильники / Морозильники" },
             { value: "Washing", text: "Стирка / Мойка" },
             { value: "AC", text: "Кондиционеры / Сплит системы" }
+        ],
+        successTitle: "Заявка отправлена!",
+        orderLabel: "Номер заявки",
+        statusLabel: "Статус",
+        btnOk: "Понятно",
+        phrases: [
+            "Спасибо за обращение! Ваша заявка № {orderNum} принята и передана специалисту. Мы свяжемся с вами в ближайшее время.",
+            "Заявка № {orderNum} успешно зарегистрирована. Благодарим за доверие — уже начали обработку.",
+            "Ваш запрос № {orderNum} принят в работу. Наш мастер свяжется с вами для согласования деталей.",
+            "Спасибо за выбор нашего сервиса. Заявка № {orderNum} зафиксирована и находится в обработке.",
+            "Мы получили вашу заявку № {orderNum}. В ближайшее время с вами свяжется сервисный инженер.",
+            "Заявка № {orderNum} принята. Мы ценим ваше время и готовим оптимальное решение.",
+            "Благодарим за обращение. Ваша заявка № {orderNum} уже передана мастеру.",
+            "Ваше обращение № {orderNum} зарегистрировано. Ожидайте обратную связь в ближайшее время.",
+            "Спасибо за доверие! Заявка № {orderNum} в работе, мы скоро свяжемся с вами.",
+            "Заявка № {orderNum} успешно принята. Наш специалист уже готовится связаться с вами."
         ]
     },
     cnr: {
@@ -51,6 +67,22 @@ const translations = {
             { value: "Fridge", text: "Frižideri" },
             { value: "Washing", text: "Veš mašine" },
             { value: "AC", text: "Klima uređaji" }
+        ],
+        successTitle: "Prijava je poslata!",
+        orderLabel: "Broj prijave",
+        statusLabel: "Status",
+        btnOk: "U redu",
+        phrases: [
+            "Hvala na obraćanju! Vaša prijava br. {orderNum} je primljena i proslijeđena stručnjaku. Kontaktiraćemo vas uskoro.",
+            "Prijava br. {orderNum} je uspješno registrovana. Hvala na povjerenju — obrada je već počela.",
+            "Vaš zahtjev br. {orderNum} je prihvaćen. Naš majstor će vas kontaktirati radi dogovora o detaljima.",
+            "Hvala što ste odabrali naš servis. Prijava br. {orderNum} je evidentirana i u fazi je obrade.",
+            "Primili smo vašu prijavu br. {orderNum}. Servisni inženjer će vas kontaktirati u najkraćem mogućem roku.",
+            "Prijava br. {orderNum} je prihvaćena. Cijenimo vaše vrijeme i pripremamo optimalno rješenje.",
+            "Hvala na obraćanju. Vaša prijava br. {orderNum} je već proslijeđena majstoru.",
+            "Vaša prijava br. {orderNum} je registrovana. Očekujte povratnu informaciju uskoro.",
+            "Hvala na povjerenju! Prijava br. {orderNum} je u radu, uskoro ćemo vas kontaktirati.",
+            "Prijava br. {orderNum} je uspješno prihvaćena. Naš stručnjak se već priprema da vas kontaktira."
         ]
     },
     en: {
@@ -66,6 +98,22 @@ const translations = {
             { value: "Fridge", text: "Fridges" },
             { value: "Washing", text: "Washers" },
             { value: "AC", text: "Air Conditioning" }
+        ],
+        successTitle: "Request sent!",
+        orderLabel: "Order ID",
+        statusLabel: "Status",
+        btnOk: "Got it",
+        phrases: [
+            "Thank you for contacting us! Your request No. {orderNum} has been accepted and assigned to a specialist. We will contact you shortly.",
+            "Request No. {orderNum} successfully registered. Thank you for your trust — processing has already begun.",
+            "Your request No. {orderNum} is accepted. Our technician will contact you to coordinate the details.",
+            "Thank you for choosing our service. Request No. {orderNum} is recorded and is being processed.",
+            "We have received your request No. {orderNum}. A service engineer will contact you shortly.",
+            "Request No. {orderNum} is accepted. We value your time and are preparing the best solution.",
+            "Thank you for your request. Your application No. {orderNum} has already been handed over to the master.",
+            "Your request No. {orderNum} is registered. Expect feedback shortly.",
+            "Thank you for your trust! Request No. {orderNum} is in progress, we will contact you soon.",
+            "Request No. {orderNum} successfully accepted. Our specialist is already preparing to contact you."
         ]
     }
 };
@@ -232,6 +280,7 @@ function renderBrandGrid() {
         // Это текст, который появится, если фото не загрузится
         // ЛОГИКА: Если картинка не нашлась, заменяем её текстовым блоком
         img.onerror = function() {
+            this.style.display = 'none'; // Скрываем иконку, если её нет
             const textFallback = document.createElement('div');
             textFallback.className = 'brand-fallback-text';
             textFallback.innerText = brand.name;
@@ -291,7 +340,6 @@ function finalSend() {
 
 function sendData(base64, fname, ftype) {
     const formData = new FormData(form);
-    //const data = Object.fromEntries(new FormData(form).entries());
     const data = Object.fromEntries(formData.entries());
    
     // 1. Получаем текстовые названия вместо технических ключей
@@ -307,19 +355,64 @@ function sendData(base64, fname, ftype) {
     data.base64 = base64;
     data.filename = fname;
     data.filetype = ftype;
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbxcRVxveyRS9vUFoDOJITobqtZtozTwKNtVmrP2900f3pS8n4yedEYACi2vtjuQ0HZJAA/exec';
+//    const scriptURL = 'https://script.google.com/macros/s/AKfycbxGSIA3Q_gzKK-8TTwShyYaBtwebu3vlDuoRaVn8jEbNaTC-wTo_0eY2rVuPw-aU4xq2A/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbw20xJlwmSU64DGkM5c9KFMQPPd7nlB4QA6YBU8nJWYgA5_iOV2gkjqQ3dxr1HjbMnQkg/exec';
 
-    fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) })
-    .then(() => { 
-        alert(translations[currentLang].success); 
+    fetch(scriptURL, { method: 'POST', mode: 'cors', body: JSON.stringify(data) })
+    .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+    })
+    .then(result => {
+        // Вызываем функцию показа красивого окна с номером и фразой
+        showFinalStatus(result.orderNumber, "Новая: Ожидает обработки");
+        
         form.reset();
         document.getElementById('type-subcategory').style.display = 'none';
         updateFileNameDisplay();
     })
-    //.catch(err => alert('Error: ' + err.message))
-    //    updateFileNameDisplay();
-    //})
-    .catch(err => alert('Error: ' + err.message))
-    .finally(() => document.getElementById('loader').style.display = 'none');
+    .catch(err => {
+        console.error('Error:', err);
+        // Запасной вариант, если сервер не ответил вовремя
+        alert(translations[currentLang].success);
+    })
+    .finally(() => {
+        document.getElementById('loader').style.display = 'none';
+    });
 }
 
+// Функция показа финального статуса с номером заявки и случайной фразой
+function showFinalStatus(number, status) {
+    const t = translations[currentLang];
+    
+    // Выбираем случайную фразу
+    let randomPhrase = t.phrases[Math.floor(Math.random() * t.phrases.length)];
+    
+    // Заменяем метку {orderNum} на реальный номер
+    randomPhrase = randomPhrase.replace("{orderNum}", number);
+
+    const details = document.getElementById('status-details');
+    
+    // Обновляем заголовки в модальном окне
+    document.getElementById('status-title').innerText = t.successTitle;
+    
+    // Формируем контент
+    details.innerHTML = `
+        <div style="margin-bottom: 10px;">
+            <span style="color: #8e8e93; font-size: 12px; text-transform: uppercase;">${t.orderLabel}:</span>
+            <span style="color: #007aff; font-weight: bold; font-size: 16px; margin-left: 5px;">#${number}</span>
+        </div>
+        <div style="margin-bottom: 15px;">
+            <span style="color: #8e8e93; font-size: 12px; text-transform: uppercase;">${t.statusLabel}:</span>
+            <span style="color: #34c759; font-weight: 600; margin-left: 5px;">${status}</span>
+        </div>
+        <div style="padding: 12px; background: #fff; border-radius: 8px; border: 1px solid #e5e5ea; font-style: italic; color: #1c1c1e;">
+            "${randomPhrase}"
+        </div>`;
+    
+    document.getElementById('statusModal').style.display = 'flex';
+}
+
+function closeStatusModal() {
+    document.getElementById('statusModal').style.display = 'none';
+}
