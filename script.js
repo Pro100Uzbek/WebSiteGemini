@@ -356,7 +356,7 @@ function sendData(base64, fname, ftype) {
     data.filename = fname;
     data.filetype = ftype;
 //    const scriptURL = 'https://script.google.com/macros/s/AKfycbxGSIA3Q_gzKK-8TTwShyYaBtwebu3vlDuoRaVn8jEbNaTC-wTo_0eY2rVuPw-aU4xq2A/exec';
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbw20xJlwmSU64DGkM5c9KFMQPPd7nlB4QA6YBU8nJWYgA5_iOV2gkjqQ3dxr1HjbMnQkg/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzqI7dJzkCu1UPILtjuQPfa0rJcRcn8Xcp9OxfvDlW3-UYwFoGBmqIBVUBtXg9OcXmzIQ/exec';
 
     fetch(scriptURL, { method: 'POST', mode: 'cors', body: JSON.stringify(data) })
     .then(response => {
