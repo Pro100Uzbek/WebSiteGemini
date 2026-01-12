@@ -61,6 +61,7 @@ body {
     text-transform: uppercase;
     background: linear-gradient(135deg, #1c1c1e 0%, #007aff 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     margin: 0;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
@@ -132,15 +133,23 @@ input[type="file"] { display: none; }
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
+/* Увеличиваем ширину именно для окна выбора бренда */
+#brandModal .modal-content {
+    max-width: 90%;      /* Занимает 90% ширины экрана на мобильных */
+    width: 600px;        /* Максимальная ширина на компьютерах */
+    padding: 25px;       /* Больше внутренних отступов */
+    border-radius: 24px; /* Более мягкие углы */
+}
+
 .brand-selector-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Авто-колонки */
     gap: 5px;
-    margin-top: 15px;
+    margin-top: 5px;
     /* ФИКСАЦИЯ СЕТКИ И ПРОКРУТКА */
     max-height: 420px; /* Высота примерно для 4-х рядов (подберите под размер ваших иконок) */
     overflow-y: auto;  /* Включаем вертикальную прокрутку */
-    padding-right: 5px; /* Отступ для скроллбара, чтобы не перекрывал карточки */
+    padding: 5px; /* Отступ для скроллбара, чтобы не перекрывал карточки */
 }
 
 /* Настройка внешнего вида скроллбара (для красоты в мобильных браузерах) */
@@ -154,24 +163,37 @@ input[type="file"] { display: none; }
 }
 
 .brand-card {
-    min-height: 85px;
+    min-height: 100px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 10px 5px;
+    padding: 5px 5px;
+    background: #f8f9fa;
     border: 1px solid #eee;
     padding: 10px;
     border-radius: 10px;
     text-align: center;
     cursor: pointer;
+    box-sizing: border-box; /* Гарантирует, что padding не расширяет карточку */
+    background: #fff;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .brand-card img {
-    max-width: 100%;
-    max-height: 50px;
+    width: 100%;
+    height: 100%;
+    max-width:85px;
+    max-height: 85px;  
     object-fit: contain;
     display: block;
+    margin: 0 auto;
+    /* border: 1px solid red;   Временно для отладки */
+}
+
+.brand-card:active {
+    transform: scale(0.95); /* Эффект нажатия */
+    background: #e5e5ea;
 }
 
 /* Стиль для текста, который появится только если иконка не загрузилась */
@@ -207,3 +229,15 @@ select option {
 .modal-buttons { display: flex; gap: 10px; margin-top: 15px; }
 .btn-confirm { background: #34c759; color: white; border: none; padding: 12px; border-radius: 10px; flex: 1; font-weight: bold; }
 .btn-cancel { background: #f2f2f7; border: none; padding: 12px; border-radius: 10px; flex: 1; }
+
+/* Добавьте в конец style.css */
+body.is-tg-app {
+    background: var(--tg-theme-bg-color, #fff); /* Берет цвет фона из настроек Telegram */
+    padding: 0;
+}
+
+body.is-tg-app .container {
+    max-width: 100%;
+    border-radius: 0; /* Делаем на весь экран без скруглений по краям */
+    box-shadow: none;
+}
