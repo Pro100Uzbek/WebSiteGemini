@@ -175,24 +175,20 @@ function getQueryParam(param) {
 
 window.onload = function() {
 
+        // 1. Сначала инициализируем бренды и язык
+    if (typeof renderBrandGrid === "function") renderBrandGrid();
+
     // Инициализация Telegram Mini App
     if (window.Telegram && window.Telegram.WebApp) {
         const tg = window.Telegram.WebApp;
-        
         tg.ready(); // Сообщаем Telegram, что приложение загрузилось
         tg.expand(); // Разворачиваем приложение на весь экран
-        
-        // Опционально: применяем цвета темы Telegram к фону вашего контейнера
-        // document.body.style.setProperty('--tg-theme-bg-color', tg.backgroundColor);
     }
 
     if (window.Telegram.WebApp.platform !== 'unknown') {
     document.body.classList.add('is-tg-app');
     }
     
-    // 1. Сначала инициализируем бренды и язык
-    if (typeof renderBrandGrid === "function") renderBrandGrid();
-
     // 2. Берем параметры из URL
     const urlParams = new URLSearchParams(window.location.search);
     const utmSource = urlParams.get('utm_source');
