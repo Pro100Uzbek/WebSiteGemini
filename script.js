@@ -1,7 +1,7 @@
 const applianceBrands = [
     { id: 1, name: "Beko", logo: "Logos/logo-beko.png", color: "#e2001a" },
     { id: 2, name: "Gorenje", logo: "Logos/logo-gorenje.png", color: "#0056a3" },
-    { id: 3, name: "Samsung", logo: "Logos/logo-samsung.png", color: "#1428a0" },const applianceBrands = [
+    { id: 3, name: "Samsung", logo: "Logos/logo-samsung.png", color: "#1428a0" },
     { id: 1, name: "Beko", logo: "Logos/logo-beko.png", color: "#e2001a" },
     { id: 2, name: "Gorenje", logo: "Logos/logo-gorenje.png", color: "#0056a3" },
     { id: 3, name: "Samsung", logo: "Logos/logo-samsung.png", color: "#1428a0" },
