@@ -5,8 +5,8 @@ const applianceBrands = [
     { id: 4, name: "LG", logo: "Logos/logo-lg.png", color: "#a50034" },
     { id: 5, name: "Bosch", logo: "Logos/logo-bosch.png", color: "#0056a3" },
     { id: 6, name: "Whirlpool", logo: "Logos/logo-whirlpool.png", color: "#ffb612" },
-    { id: 7, name: "Indesit", logo: "./logos/logo-indesit.png", color: "#0056a3" },
-    { id: 8, name: "Candy", logo: "./logos/logo-candy.png", color: "#0056a3" },
+    { id: 7, name: "Indesit", logo: "Logos/logo-indesit.png", color: "#0056a3" },
+    { id: 8, name: "Candy", logo: "Logos/logo-candy.png", color: "#0056a3" },
     { id: 9, name: "Miele", logo: "Logos/logo-miele.png", color: "#5d1d1d" },
     { id: 10, name: "Ariston", logo: "Logos/logo-ariston.png", color: "#5d1d1d" },
     { id: 11, name: "Liebherr", logo: "Logos/logo-liebherr.png", color: "#5d1d1d" },
@@ -356,10 +356,16 @@ function sendData(base64, fname, ftype) {
     data.base64 = base64;
     data.filename = fname;
     data.filetype = ftype;
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzBC6gT--PF5izw0yJyIDwm_23NTfSLplZLxIrca5lksUMqMiXi3FTKy9DsSVx6ad7qrw/exec';
 
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbyoi-NneAkxrAK0riHr5c-kwdXQUtHNQT9szhNfs-_QEID0r3JyN-JBrWcQwFiS2ZN5Bw/exec';
-
-    fetch(scriptURL, { method: 'POST', mode: 'cors', body: JSON.stringify(data) })
+    fetch(scriptURL, { 
+        method: 'POST', 
+        mode: 'cors', 
+        headers: {
+        'Content-Type': 'text/plain;charset=utf-8', // ВАЖНО: используйте text/plain
+        },
+        body: JSON.stringify(data)
+    })
     .then(response => {
         if (!response.ok) throw new Error('Network response was not ok');
         return response.json();
