@@ -284,7 +284,8 @@ function renderBrandGrid() {
             const textFallback = document.createElement('div');
             textFallback.className = 'brand-fallback-text';
             textFallback.innerText = brand.name;
-            card.innerHTML = '';
+            card.appendChild(textFallback);
+            // card.innerHTML = '';
             // Очищаем карточку от битой картинки
             card.appendChild(textFallback);
         };
