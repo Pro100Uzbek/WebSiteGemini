@@ -171,43 +171,33 @@ function getQueryParam(param) {
 }
 
 window.onload = function() {
-
-        // 1. Сначала инициализируем бренды и язык
-    if (typeof renderBrandGrid === "function") renderBrandGrid();
-
-    // Инициализация Telegram Mini App
-    if (window.Telegram && window.Telegram.WebApp) {
-        const tg = window.Telegram.WebApp;
-        tg.ready(); // Сообщаем Telegram, что приложение загрузилось
-        tg.expand(); // Разворачиваем приложение на весь экран
+    // 1. Сначала отрисовываем сетку, чтобы кнопки физически появились
+    if (typeof renderBrandGrid === "function") {
+        renderBrandGrid();
     }
 
-    if (window.Telegram.WebApp.platform !== 'unknown') {
-    document.body.classList.add('is-tg-app');
+    // 2. Оборачиваем работу с Telegram в try-catch
+    try {
+        if (window.Telegram && window.Telegram.WebApp) {
+            const tg = window.Telegram.WebApp;
+            tg.ready();
+            tg.expand();
+            
+            if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+                document.getElementById('source').value = 'telegram_miniapp';
+                document.getElementById('user_id').value = tg.initDataUnsafe.user.username || tg.initDataUnsafe.user.id;
+            }
+        }
+    } catch (e) {
+        console.warn("Telegram SDK error:", e);
     }
-    
-    // 2. Берем параметры из URL
+
+    // 3. Установка языка и UTM
     const urlParams = new URLSearchParams(window.location.search);
-    const utmSource = urlParams.get('utm_source');
-    const extUserId = urlParams.get('user_id');
+    if (urlParams.get('utm_source')) document.getElementById('source').value = urlParams.get('utm_source');
     
-    // 3. Элементы формы
-    const sourceInput = document.getElementById('source');
-    const userInput = document.getElementById('user_id');
-    
-    // 4. Логика: приоритет Telegram, затем UTM
-    if (window.Telegram?.WebApp?.initDataUnsafe?.user) {
-        const tg = window.Telegram.WebApp;
-        sourceInput.value = tg.initDataUnsafe.start_param || 'telegram_miniapp';
-        userInput.value = tg.initDataUnsafe.user.username || tg.initDataUnsafe.user.id;
-    } else {
-        // Если это Viber, FB или обычный браузер
-        if (utmSource) sourceInput.value = utmSource;
-        if (extUserId) userInput.value = extUserId;
-    }
-    
-    // Проверка языка
-    if (typeof changeLang === "function") changeLang(currentLang);
+    // Вызываем смену языка в самом конце
+    changeLang(currentLang); 
 };
     
 // Функция обновления подменю
